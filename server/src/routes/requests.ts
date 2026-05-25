@@ -5,15 +5,16 @@ import prisma from '../prisma';
 const router = Router();
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-  const { name, phone, email, serviceType, location, deadline, description } = req.body;
+  const { name, phone, email, services, serviceType, location, deadline, description } = req.body;
+  const type = serviceType || (Array.isArray(services) ? services.join(', ') : services) || '';
 
-  if (!name || !phone || !serviceType || !description) {
+  if (!name || !phone || !description) {
     res.status(400).json({ error: 'Заполните обязательные поля' });
     return;
   }
 
   const request = await prisma.request.create({
-    data: { name, phone, email, serviceType, location, deadline, description },
+    data: { name, phone, email, serviceType: type, location, deadline, description },
   });
 
   res.status(201).json(request);
