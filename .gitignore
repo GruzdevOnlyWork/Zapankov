@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.angular/
+.env
+.*/
+uploads/*
+!uploads/.gitkeep
+*.log
+*-log.txt
+README.md
+design/

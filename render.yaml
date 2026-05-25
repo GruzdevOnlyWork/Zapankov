@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: metalmaster
+    runtime: node
+    buildCommand: cd server && npm install --include=dev && npx prisma generate --schema=src/prisma/schema.prisma && npm run build && cd ../client && npm install --include=dev && npx ng build --configuration=production
+    startCommand: cd server && node dist/index.js
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/server/uploads
+      sizeGB: 1

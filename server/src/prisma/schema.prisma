@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  orderNumber String   @unique @map("order_number")
+  type        String
+  status      String   @default("new")
+  clientId    Int      @map("client_id")
+  client      Client   @relation(fields: [clientId], references: [id])
+  description String?
+  location    String?
+  deadline    String?
+  amount      Float?
+  amountPaid  Float?   @default(0) @map("amount_paid")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  orders    Order[]
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("clients")
+}
+
+model Request {
+  id          Int      @id @default(autoincrement())
+  name        String
+  phone       String
+  email       String?
+  serviceType String   @map("service_type")
+  location    String?
+  deadline    String?
+  description String
+  status      String   @default("new")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("requests")
+}
+
+model PortfolioItem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String
+  description String?
+  location    String?
+  year        Int
+  featured    Boolean  @default(false)
+  imageUrl    String?  @map("image_url")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("portfolio_items")
+}
