@@ -521,7 +521,7 @@ export class RequestsComponent implements OnInit {
     if (confirm('Удалить заявку?')) {
       this.api.deleteRequest(req.id).subscribe({
         next: () => this.loadRequests(),
-        error: () => {},
+        error: (err) => alert('Ошибка удаления: ' + (err?.error?.error || err?.message || 'Неизвестная ошибка')),
       });
     }
   }

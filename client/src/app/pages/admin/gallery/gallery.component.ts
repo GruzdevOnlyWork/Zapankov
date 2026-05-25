@@ -597,7 +597,7 @@ export class GalleryComponent implements OnInit {
     if (confirm('Удалить работу из галереи?')) {
       this.api.deletePortfolioItem(item.id).subscribe({
         next: () => this.loadItems(),
-        error: () => {},
+        error: (err) => alert('Ошибка удаления: ' + (err?.error?.error || err?.message || 'Неизвестная ошибка')),
       });
     }
   }

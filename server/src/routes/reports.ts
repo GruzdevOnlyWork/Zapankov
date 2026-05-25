@@ -1,12 +1,11 @@
 import { Router, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import { authMiddleware, AuthRequest } from '../middleware/auth';
 import ExcelJS from 'exceljs';
 import PDFDocument from 'pdfkit';
 import path from 'path';
+import prisma from '../prisma';
 
 const router = Router();
-const prisma = new PrismaClient();
 const FONT_PATH = path.join(__dirname, '..', 'fonts', 'DejaVuSans.ttf');
 
 router.use(authMiddleware);
